@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>100 Filósofos Dijeron — Samuel Ramos</title>
+  <link rel="stylesheet" href="estilos.css" />
+</head>
+<body>
+
+  <!-- Navbar (tu estándar) -->
+  <div id="nav-placeholder"></div>
+
+  <header class="hero">
+    <img class="hero__img" src="img/banner.jpg" alt="100 Filósofos Dijeron" />
+    <div class="hero__overlay">
+      <div class="hero__title">
+        <h1>100 Filósofos Dijeron</h1>
+        <span class="pill">Edición: Samuel Ramos</span>
+      </div>
+      <p class="hero__sub">Modo proyector · Teclas: <strong>1-8</strong> revelar · <strong>X</strong> strike · <strong>T</strong> 30s · <strong>S</strong> 45s · <strong>N</strong> siguiente</p>
+    </div>
+  </header>
+
+  <!-- Timer overlay (gigante) -->
+  <div class="timerOverlay" id="timerOverlay" aria-hidden="true">
+    <div class="timerOverlay__card">
+      <div class="timerOverlay__label">TIEMPO</div>
+      <div class="timerOverlay__time" id="timerOverlayTime">30</div>
+      <div class="timerOverlay__hint">T = 30s · S = 45s · Espacio = pausar · Esc = cerrar</div>
+    </div>
+  </div>
+
+  <!-- Confetti overlay -->
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+  <main class="layout">
+    <!-- Equipo A -->
+    <section class="team team--a">
+      <div class="team__head">
+        <h2>Equipo A</h2>
+        <div class="team__chip">A</div>
+      </div>
+
+      <div class="score" id="scoreA">0</div>
+
+      <div class="teamBtns">
+        <button class="btn btn--ok" id="awardA">🏆 Cobrar banca</button>
+        <button class="btn btn--ghost" id="editA">✏️ Cambiar nombre</button>
+      </div>
+
+      <div class="smallInfo">
+        <div><span class="muted">Nombre:</span> <strong id="nameA">Equipo A</strong></div>
+        <div><span class="muted">Atajo:</span> <strong>Q</strong> cobra banca A</div>
+      </div>
+    </section>
+
+    <!-- Tablero -->
+    <section class="board">
+      <div class="topbar">
+        <div class="tile">
+          <div class="tag">Ronda</div>
+          <div class="big" id="roundNum">1</div>
+          <div class="mini" id="roundTitle">—</div>
+        </div>
+
+        <div class="tile tile--bank">
+          <div class="tag">Banca</div>
+          <div class="big glow" id="bankPoints">0</div>
+          <div class="mini">Se suma al revelar</div>
+        </div>
+
+        <div class="tile">
+          <div class="tag">Strikes</div>
+          <div class="xrow" id="xrow">
+            <span class="x">X</span><span class="x">X</span><span class="x">X</span>
+          </div>
+          <div class="mini" id="stealHint">3 strikes = robar</div>
+        </div>
+
+        <div class="tile tile--timer">
+          <div class="tag">Tiempo</div>
+          <button class="timerBtn" id="timerBtn" title="T=30s / S=45s">
+            <span id="timerText">--</span>
+          </button>
+          <div class="mini">Click abre gigante</div>
+        </div>
+      </div>
+
+      <div class="questionCard">
+        <div class="qLabel">DÍGAME ALGO QUE…</div>
+        <div class="question" id="questionText">(Pregunta aquí)</div>
+      </div>
+
+      <div class="answers" id="answers"></div>
+
+      <div class="controls">
+        <button class="btn btn--bad" id="strikeBtn">Strike ❌</button>
+        <button class="btn" id="revealAllBtn">Revelar todo 👀</button>
+        <button class="btn btn--warn" id="stealBtn" disabled>¡ROBAR! 🏴‍☠️</button>
+        <button class="btn btn--ghost" id="resetRoundBtn">Reset ronda ↺</button>
+        <button class="btn btn--ok" id="nextRoundBtn">Siguiente ronda ➜</button>
+      </div>
+
+      <details class="admin" id="adminPanel">
+        <summary>⚙️ Modo Maestro (editar ronda)</summary>
+
+        <div class="adminGrid">
+          <label>
+            Título de ronda (opcional):
+            <input id="adminTitle" type="text" placeholder="Ej: Identidad mexicana" />
+          </label>
+
+          <label>
+            Pregunta:
+            <textarea id="adminQuestion" rows="2"></textarea>
+          </label>
+
+          <label>
+            Respuestas (formato: respuesta|puntos, una por línea):
+            <textarea id="adminAnswers" rows="8"></textarea>
+          </label>
+
+          <label>
+            Multiplicador de ronda (1, 2, 3...):
+            <input id="adminMult" type="number" min="1" value="1" />
+          </label>
+
+          <div class="adminBtns">
+            <button class="btn btn--ok" id="applyAdmin">Aplicar ✅</button>
+            <button class="btn btn--ghost" id="saveToRounds">Guardar en ronda actual 💾</button>
+          </div>
+        </div>
+
+        <p class="hint">
+          Atajos: <strong>1-8</strong> revelar · <strong>X</strong> strike · <strong>R</strong> robar ·
+          <strong>N</strong> siguiente · <strong>T</strong> 30s · <strong>S</strong> 45s · <strong>Espacio</strong> pausa timer · <strong>Q/E</strong> cobrar banca A/B
+        </p>
+      </details>
+    </section>
+
+    <!-- Equipo B -->
+    <section class="team team--b">
+      <div class="team__head">
+        <h2>Equipo B</h2>
+        <div class="team__chip">B</div>
+      </div>
+
+      <div class="score" id="scoreB">0</div>
+
+      <div class="teamBtns">
+        <button class="btn btn--ok" id="awardB">🏆 Cobrar banca</button>
+        <button class="btn btn--ghost" id="editB">✏️ Cambiar nombre</button>
+      </div>
+
+      <div class="smallInfo">
+        <div><span class="muted">Nombre:</span> <strong id="nameB">Equipo B</strong></div>
+        <div><span class="muted">Atajo:</span> <strong>E</strong> cobra banca B</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <small>Hecho para exposición · “100 Filósofos Dijeron” (Samuel Ramos)</small>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    fetch("navbar.html").then(r => r.text()).then(html => {
+      document.getElementById("nav-placeholder").innerHTML = html;
+    }).catch(()=>{});
+  </script>
+</body>
+</html>
